@@ -1,0 +1,159 @@
+:root {
+  --minsize: 200px;
+  --beige: #f6eee3;
+  --nav: black;
+}
+
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-color: var(--beige);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: -1;
+}
+
+.gallery-item {
+  background-color: #11111115;
+  border: 1px solid #333;
+  box-shadow: 2px 2px 3px rgba(86, 85, 85, 0.4);
+  overflow: hidden;
+}
+
+.indexgrid {
+  width: min(100% - 0.25rem, 1600px);
+  margin: 0 auto;
+}
+
+.indexgrid .gallery-item {
+  height: auto;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.indexgrid .gallery-item > .sekhmet_stack {
+  display: block;
+  width: 100%;
+}
+
+.indexgrid .sekhmet_base {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  opacity: 1;
+  filter: none;
+  border: none;
+}
+
+.indexgrid .sekhmet_eyes {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  filter: none;
+  border: none;
+}
+
+.indexgrid .sekhmet_base:hover,
+.indexgrid .sekhmet_eyes:hover {
+  opacity: 1;
+  filter: none;
+  transition: none;
+  scale: 1;
+}
+
+/* sekmet eyes animation */
+
+.sekhmet_stack {
+  position: relative;
+  display: block;
+  width: 100%;
+  line-height: 0;
+}
+
+.sekhmet_base {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.sekhmet_eyes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: translateY(0);
+  transition: transform 0.18s ease;
+}
+
+/* top area = eyes look up */
+body:has(.site_header:hover) .sekhmet_eyes,
+body:has(header:hover) .sekhmet_eyes,
+body:has(nav:hover) .sekhmet_eyes {
+  transform: translateY(-4px);
+}
+
+/* over the Sekhmet image = default / center */
+body:has(.sekhmet_stack:hover) .sekhmet_eyes {
+  transform: translateY(0);
+}
+
+/* footer area = eyes look down */
+body:has(footer:hover) .sekhmet_eyes {
+  transform: translateY(4px);
+}
+
+/* ---- */
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  height: calc(var(--minsize) * 0.6);
+  box-shadow: 2px 2px 3px rgba(86, 85, 85, 0.4);
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+  filter: brightness(1) grayscale(0.5) blur(0.1px);
+  transition: all 0.7s;
+}
+
+.gallery-item img:hover {
+  opacity: 1;
+  filter: brightness(1) grayscale(0);
+  transition: all 0.8s;
+  scale: 1.06;
+}
+
+@media (width <= 600px) {
+  .gallery {
+    margin: 0;
+  }
+  .gallery-item {
+    height: calc(var(--minsize) * 1.55);
+  }
+}
