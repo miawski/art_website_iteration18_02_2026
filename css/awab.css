@@ -1,0 +1,100 @@
+/* AWAB PAGE — page-specific styling only */
+.awab_main {
+  width: 100%;
+  background-color: var(--beige);
+}
+
+.awab_intro,
+.awab_sekhmet_section {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.4rem;
+}
+
+.awab_intro h1,
+.awab_sekhmet_section h2 {
+  display: inline-block;
+  margin: 0 0 1rem 0;
+  padding: 0.18em 0.42em;
+  background-color: var(--black);
+  color: var(--beige);
+  font-family: "Alumni Sans", Arial, sans-serif;
+  font-weight: lighter;
+  line-height: 0.95;
+}
+
+.awab_intro h1 {
+  font-size: clamp(3rem, 12vw, 5.2rem);
+}
+
+.awab_sekhmet_section h2 {
+  font-size: clamp(2rem, 8vw, 3.6rem);
+}
+
+.awab_intro p,
+.awab_sekhmet_text p {
+  max-width: 55ch;
+  color: var(--black);
+  font-family: "Alumni Sans", Arial, sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.45;
+  margin: 0 0 1rem 0;
+}
+
+.awab_animation_section {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.4rem 2rem;
+}
+
+.awab_sekhmet_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.awab_sekhmet_stack {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  line-height: 0;
+}
+
+.awab_sekhmet_base {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.awab_sekhmet_eyes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.12s ease-out;
+  will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .awab_intro,
+  .awab_sekhmet_section {
+    padding: 3rem 0;
+  }
+
+  .awab_animation_section {
+    padding: 0 0 3rem;
+  }
+
+  .awab_sekhmet_grid {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 2rem;
+  }
+
+  .awab_sekhmet_text {
+    padding-top: 1rem;
+  }
+}

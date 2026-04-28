@@ -1,0 +1,30 @@
+#svg-createmotionpath {
+  position: relative;
+  grid-column: 1 / -1;
+  width: min(100%, 304px);
+  margin: 2rem auto 0;
+  color: #000;
+}
+
+#svg-createmotionpath svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+#svg-createmotionpath .car {
+  position: absolute;
+  width: 16px;
+  height: 8px;
+  left: -8px;
+  top: -5px;
+  background-color: currentColor;
+  border-radius: 2px;
+  border-style: inherit;
+  color: blueviolet;
+}
+
+#svg-createmotionpath .docs-demo-template .car {
+  display: none;
+}

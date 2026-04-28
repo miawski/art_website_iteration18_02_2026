@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="robots" content="noindex" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Load icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/gallery.css" />
+    <link rel="stylesheet" href="css/animation_styling.css" />
+    <link rel="stylesheet" href="css/awab.css" />
+    <link rel="icon" type="image/png" href="img/favicon/npc_96p.webp" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon/npc_fvcn_93.svg" />
+    <link rel="shortcut icon" href="img/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.webp" />
+    <link rel="manifest" href="img/favicon/site.webmanifest" />
+    <title>Awab | NPC Art</title>
+  </head>
+
+  <body>
+    <header class="site_header">
+      <div class="header_row">
+        <nav class="desktop_nav">
+          <a href="index.html" class="home_logo">
+            <img src="img/NPC_graf_cartoon.webp" alt="npc logo" />
+          </a>
+
+          <ul class="nav_links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="awab.html">Awab</a></li>
+            <li><a href="leo.html">Leo</a></li>
+            <li><a href="clara.html">Clara</a></li>
+          </ul>
+
+          <!-- language switch -->
+          <div class="lang_switch" role="group" aria-label="Language selector">
+            <a href="awab.html" class="lang_active" lang="en">en</a>
+            <span>/</span>
+            <a href="da/index.html" lang="da">da</a>
+          </div>
+
+          <button class="header_search desktop_search" id="desktopSearchToggle" type="button" aria-label="Open search" aria-expanded="false">
+            <i class="fa fa-search search_icon" aria-hidden="true"></i>
+          </button>
+        </nav>
+      </div>
+
+      <div class="header_search_panel" id="headerSearchPanel">
+        <form class="header_search_form" id="headerSearchForm" role="search">
+          <label class="sr_only" for="headerSearchInput">Search</label>
+          <input type="search" id="headerSearchInput" name="q" placeholder="Search" autocomplete="off" aria-autocomplete="list" />
+          <button type="submit" class="header_search_submit">Search</button>
+        </form>
+
+        <div class="header_search_suggestions" id="headerSearchSuggestions"></div>
+      </div>
+
+      <nav class="mobile_nav">
+        <div class="mobile_bar">
+          <a href="index.html" class="mobile_logo">
+            <img src="img/NPC_graf_cartoon.webp" alt="npc logo" />
+          </a>
+
+          <button class="mobile_burger" id="mobileBurger" aria-label="Open menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <button class="header_search mobile_search" id="mobileSearchToggle" type="button" aria-label="Open search" aria-expanded="false">
+            <i class="fa fa-search search_icon" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <ul class="mobile_menu" id="mobileMenu">
+          <li><a href="about.html">About</a></li>
+          <li><a href="leo.html">Leo</a></li>
+          <li><a href="clara.html">Clara</a></li>
+          <li><a href="awab.html">Awab</a></li>
+
+          <li class="mobile_lang_item">
+            <div class="lang_switch" role="group" aria-label="Language selector">
+              <a href="awab.html" class="lang_active" lang="en">en</a>
+              <span>/</span>
+              <a href="da/index.html" lang="da">da</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="awab_main">
+      <section class="awab_intro">
+        <h1>Awab</h1>
+        <p>Awab's art moves between symbolism, digital experiments and visual storytelling. The work explores identity, memory and myth through layered images, animated elements and a playful connection between hand-made and digital expression.</p>
+      </section>
+
+      <section class="awab_animation_section" aria-label="Anime.js SVG motion path animation">
+        <div class="anime_description"></div>
+        <h2>Animation project:</h2>
+        <p>This is an animation project Awab is working on</p>
+
+        <div id="svg-createmotionpath" class="motion_path_demo">
+          <svg viewBox="0 0 304 112" aria-labelledby="suzukaTitle" role="img">
+            <title id="suzukaTitle">Suzuka motion path</title>
+            <g stroke="none" fill="none" fill-rule="evenodd">
+              <path
+                d="M189.142857,4 C227.456875,4 248.420457,4.00974888 256.864191,4.00974888 C263.817211,4.00974888 271.61219,3.69583517 274.986231,6.63061513 C276.382736,7.84531176 279.193529,11.3814152 280.479499,13.4815847 C281.719344,15.5064248 284.841964,20.3571626 275.608629,20.3571626 C265.817756,20.3571626 247.262478,19.9013915 243.955117,19.9013915 C239.27946,19.9013915 235.350655,24.7304885 228.6344,24.7304885 C224.377263,24.7304885 219.472178,21.0304113 214.535324,21.0304113 C207.18393,21.0304113 200.882842,30.4798911 194.124187,30.4798911 C186.992968,30.4798911 182.652552,23.6245972 173.457298,23.6245972 C164.83277,23.6245972 157.191045,31.5424105 157.191045,39.1815359 C157.191045,48.466779 167.088672,63.6623005 166.666679,66.9065088 C166.378668,69.1206889 155.842137,79.2568633 151.508744,77.8570506 C145.044576,75.7689355 109.126667,61.6405346 98.7556561,52.9785141 C96.4766876,51.0750861 89.3680347,39.5769094 83.4195005,38.5221785 C80.6048001,38.0231057 73.0179337,38.7426555 74.4158694,42.6956376 C76.7088819,49.1796531 86.3280337,64.1214904 87.1781062,66.9065088 C88.191957,70.2280995 86.4690152,77.0567847 82.2060607,79.2503488 C79.2489435,80.7719756 73.1324132,82.8858479 64.7015706,83.0708761 C55.1604808,83.2802705 44.4254811,80.401884 39.1722168,80.401884 C25.7762119,80.401884 24.3280517,89.1260466 22.476679,94.4501705 C21.637667,96.8629767 20.4337535,108 33.2301959,108 C37.8976087,108 45.0757044,107.252595 53.4789069,103.876424 C61.8821095,100.500252 122.090049,78.119656 128.36127,75.3523302 C141.413669,69.5926477 151.190142,68.4987755 147.018529,52.0784879 C143.007818,36.291544 143.396957,23.4057975 145.221196,19.6589263 C146.450194,17.1346449 148.420955,14.8552817 153.206723,15.7880203 C155.175319,16.1716965 155.097637,15.0525421 156.757598,11.3860986 C158.417558,7.71965506 161.842736,4.00974888 167.736963,4.00974888 C177.205308,4.00974888 184.938832,4 189.142857,4 Z"
+                id="suzuka"
+                stroke="currentColor"
+                stroke-width="2"
+              ></path>
+            </g>
+          </svg>
+
+          <div class="square car motion-path-car" style="transform: translateX(189px) translateY(4px)"></div>
+        </div>
+      </section>
+
+      <section class="awab_sekhmet_section">
+        <div class="awab_sekhmet_grid">
+          <div class="awab_sekhmet_text">
+            <h2>Sekhmet Face</h2>
+            <p>
+              This Sekhmet face was created by separating the face and the eyes into two image layers. The base image stays still, while the eye layer is placed directly on top of it. With JavaScript, the eyes can react to the mouse position while
+              still staying inside the eye sockets.
+            </p>
+          </div>
+          <a href="img/website_img/sekmet_face_transparent.webp" class="awab_sekhmet_stack" target="_blank" rel="noopener noreferrer" aria-label="Open Sekhmet artwork in a new tab">
+            <img class="awab_sekhmet_base" src="img/sekhmet/sekmet_no_eyes.webp" alt="Sekhmet face without eyes" />
+            <img class="awab_sekhmet_eyes" src="img/sekhmet/eyes_aligned_corrected.webp" alt="" aria-hidden="true" />
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>
+        <p>Art Website</p>
+        <p>MMD 1. semester; March 2026</p>
+      </div>
+      <div>
+        <p>&copy; Awab</p>
+      </div>
+    </footer>
+    <script src="js/header.js" defer></script>
+    <script type="module" src="js/animation.js"></script>
+    <script src="js/awab_sekhmet.js"></script>
+  </body>
+</html>
