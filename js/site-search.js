@@ -1,197 +1,73 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const desktopSearchToggle = document.getElementById("desktopSearchToggle");
-  const mobileSearchToggle = document.getElementById("mobileSearchToggle");
-  const headerSearchPanel = document.getElementById("headerSearchPanel");
-  const headerSearchInput = document.getElementById("headerSearchInput");
-  const headerSearchForm = document.getElementById("headerSearchForm");
-  const headerSearchSuggestions = document.getElementById("headerSearchSuggestions");
+  const panel = document.getElementById("headerSearchPanel");
+  const input = document.getElementById("headerSearchInput");
+  const form = document.getElementById("headerSearchForm");
+  const suggestions = document.getElementById("headerSearchSuggestions");
+  const toggles = ["desktopSearchToggle", "mobileSearchToggle"].map((id) => document.getElementById(id)).filter(Boolean);
 
-  if (!headerSearchPanel || !headerSearchInput || !headerSearchForm || !headerSearchSuggestions) return;
+  if (!panel || !input || !form || !suggestions) return;
 
-  const pathname = window.location.pathname.toLowerCase();
-  const isDanishPage = pathname.includes("/da/");
-  const sitePages = isDanishPage
-    ? [
-        { title: "Hjem", url: "index.html" },
-        { title: "Om", url: "about.html" },
-        { title: "Leo", url: "leo.html" },
-        { title: "Clara", url: "clara.html" },
-      ]
-    : [
-        { title: "Home", url: "index.html" },
-        { title: "About", url: "about.html" },
-        { title: "Leo", url: "leo.html" },
-        { title: "Clara", url: "clara.html" },
-        { title: "Extra", url: "extra.html" },
-      ];
+  const indexUrl = window.location.pathname.toLowerCase().includes("/da/") ? "../js/search_index.json" : "js/search_index.json";
+  let pagesPromise;
 
-  let siteIndex = [];
+  const clear = () => {
+    suggestions.innerHTML = "";
+    suggestions.classList.remove("open");
+  };
 
-  async function loadSiteIndex() {
-    if (siteIndex.length) return siteIndex;
+  const setOpen = (isOpen) => {
+    panel.classList.toggle("open", isOpen);
+    toggles.forEach((toggle) => toggle.setAttribute("aria-expanded", String(isOpen)));
+    isOpen ? input.focus() : clear();
+  };
 
-    const results = await Promise.all(
-      sitePages.map(async (page) => {
-        const response = await fetch(page.url);
-        if (!response.ok) {
-          return { ...page, content: "", words: [] };
-        }
+  const loadPages = () =>
+    (pagesPromise ||= fetch(indexUrl)
+      .then((response) => (response.ok ? response.json() : []))
+      .then((items) => (Array.isArray(items) ? items : []))
+      .catch(() => []));
 
-        const html = await response.text();
-        const doc = new DOMParser().parseFromString(html, "text/html");
+  const getMatches = async () => {
+    const query = input.value.trim().toLowerCase();
+    if (!query) return [];
 
-        doc.querySelectorAll("script, style, noscript").forEach((node) => node.remove());
-
-        const content = (doc.body?.textContent || "").replace(/\s+/g, " ").trim();
-        const words = Array.from(new Set(content.toLowerCase().match(/[\p{L}0-9'-]+/gu) || []));
-
-        return { ...page, content, words };
-      }),
-    );
-
-    siteIndex = results;
-    return siteIndex;
-  }
-
-  function openSearch() {
-    headerSearchPanel.classList.add("open");
-    if (desktopSearchToggle) desktopSearchToggle.setAttribute("aria-expanded", "true");
-    if (mobileSearchToggle) mobileSearchToggle.setAttribute("aria-expanded", "true");
-    headerSearchInput.focus();
-  }
-
-  function closeSearch() {
-    headerSearchPanel.classList.remove("open");
-    headerSearchSuggestions.classList.remove("open");
-    headerSearchSuggestions.innerHTML = "";
-    if (desktopSearchToggle) desktopSearchToggle.setAttribute("aria-expanded", "false");
-    if (mobileSearchToggle) mobileSearchToggle.setAttribute("aria-expanded", "false");
-  }
-
-  function toggleSearch() {
-    if (headerSearchPanel.classList.contains("open")) {
-      closeSearch();
-    } else {
-      openSearch();
-    }
-  }
-
-  function getSuggestions(query, pages) {
-    const q = query.trim().toLowerCase();
-    if (!q) return [];
-
-    const matches = new Set();
-
-    pages.forEach((page) => {
-      page.words.forEach((word) => {
-        if (word.includes(q) && word.length > 1) {
-          matches.add(word);
-        }
-      });
-    });
-
-    return Array.from(matches)
-      .sort((a, b) => {
-        const aStarts = a.startsWith(q) ? 0 : 1;
-        const bStarts = b.startsWith(q) ? 0 : 1;
-        if (aStarts !== bStarts) return aStarts - bStarts;
-        return a.localeCompare(b);
-      })
-      .slice(0, 8);
-  }
-
-  function renderSuggestions(items) {
-    if (!items.length) {
-      headerSearchSuggestions.innerHTML = "";
-      headerSearchSuggestions.classList.remove("open");
-      return;
-    }
-
-    headerSearchSuggestions.innerHTML = items.map((item) => `<button type="button" class="search_suggestion_item" data-value="${item}">${item}</button>`).join("");
-
-    headerSearchSuggestions.classList.add("open");
-  }
-
-  async function updateSuggestions() {
-    const query = headerSearchInput.value;
-    if (!query.trim()) {
-      headerSearchSuggestions.innerHTML = "";
-      headerSearchSuggestions.classList.remove("open");
-      return;
-    }
-
-    try {
-      const pages = await loadSiteIndex();
-      renderSuggestions(getSuggestions(query, pages));
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  function findBestPage(query, pages) {
-    const q = query.trim().toLowerCase();
-
-    const ranked = pages
+    return (await loadPages())
       .map((page) => {
-        const haystack = `${page.title} ${page.content}`.toLowerCase();
-        let score = 0;
-
-        if (page.title.toLowerCase().includes(q)) score += 5;
-        if (haystack.includes(q)) score += 2;
-        if (page.words.some((word) => word === q)) score += 4;
-        if (page.words.some((word) => word.startsWith(q))) score += 3;
-
-        return { page, score };
+        const title = (page.title || "").toLowerCase();
+        const text = `${page.title || ""} ${page.content || ""}`.toLowerCase();
+        const score = (title === query ? 4 : 0) + (title.startsWith(query) ? 3 : 0) + (title.includes(query) ? 2 : 0) + (text.includes(query) ? 1 : 0);
+        return score ? { page, score } : null;
       })
-      .filter((item) => item.score > 0)
-      .sort((a, b) => b.score - a.score);
+      .filter(Boolean)
+      .sort((a, b) => b.score - a.score || a.page.title.localeCompare(b.page.title))
+      .slice(0, 4);
+  };
 
-    return ranked.length ? ranked[0].page : null;
-  }
+  const render = (matches) => {
+    if (!matches.length) return clear();
+    suggestions.innerHTML = matches.map(({ page }) => `<button type="button" class="search_suggestion_item" data-url="${page.url}">${page.title}</button>`).join("");
+    suggestions.classList.add("open");
+  };
 
-  if (desktopSearchToggle) {
-    desktopSearchToggle.addEventListener("click", toggleSearch);
-  }
+  toggles.forEach((toggle) => toggle.addEventListener("click", () => setOpen(!panel.classList.contains("open"))));
+  input.addEventListener("input", async () => render(await getMatches()));
 
-  if (mobileSearchToggle) {
-    mobileSearchToggle.addEventListener("click", toggleSearch);
-  }
-
-  headerSearchInput.addEventListener("input", updateSuggestions);
-
-  headerSearchSuggestions.addEventListener("click", async (event) => {
-    const button = event.target.closest(".search_suggestion_item");
-    if (!button) return;
-
-    headerSearchInput.value = button.dataset.value;
-    headerSearchSuggestions.innerHTML = "";
-    headerSearchSuggestions.classList.remove("open");
-    headerSearchForm.requestSubmit();
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const [bestMatch] = await getMatches();
+    if (bestMatch) window.location.href = bestMatch.page.url;
   });
 
-  headerSearchForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const query = headerSearchInput.value.trim();
-    if (!query) return;
-
-    try {
-      const pages = await loadSiteIndex();
-      const bestPage = findBestPage(query, pages);
-
-      if (bestPage) {
-        window.location.href = bestPage.url;
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  suggestions.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest(".search_suggestion_item");
+    if (button) window.location.href = button.dataset.url;
   });
 
   document.addEventListener("click", (event) => {
-    const clickedInside = event.target.closest(".header_search_panel") || event.target.closest("#desktopSearchToggle") || event.target.closest("#mobileSearchToggle");
-
-    if (!clickedInside) {
-      closeSearch();
+    if (!(event.target instanceof Element)) return;
+    if (!toggles.some((toggle) => toggle.contains(event.target)) && !event.target.closest(".header_search_panel")) {
+      setOpen(false);
     }
   });
 });
